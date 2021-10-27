@@ -1,6 +1,6 @@
 <template>
   <div>
-    <router-view></router-view>
+      <h1>finance-manage</h1>
   </div>
 </template>
 
@@ -10,8 +10,6 @@ export default {
 }
 </script>
 
-<style lang="less" scoped>
-
-</style>>
+<style>
 
 </style>
