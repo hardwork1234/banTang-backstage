@@ -2,20 +2,23 @@
   <div>
       <div class="banner">易购后台管理系统</div>
       <el-card class="box-card">
-        <el-form  label-width="0px">
+        <!-- 数据绑定v-model 数据的验证rules 数据的重置 ref this.$refs.loginFormRef.resetFields() -->
+        <!-- 刚开始有的疑惑 就是输入框不能输入是因为没有数据绑定或者绑定错误 v-model='loginForm.username'-->
+        
+        <el-form ref='loginFormRef' label-width="0px" :model='loginForm' :rules="loginRules">
           <!-- 用户名 -->
-          <el-form-item >
-          <el-input  prefix-icon='el-icon-user-solid'> </el-input>
+          <el-form-item prop="username">
+          <el-input  prefix-icon='el-icon-user-solid' v-model='loginForm.username' > </el-input>
           </el-form-item>
           <!-- 密码 -->
-          <el-form-item >
-          <el-input  prefix-icon='el-icon-s-cooperation'></el-input>
+          <el-form-item prop="password">
+          <el-input  prefix-icon='el-icon-s-cooperation' v-model='loginForm.password' type='password'></el-input>
           </el-form-item>
           
           <!-- 按钮 -->
           <el-form-item class="btbotton">
          <el-button type="primary">登录</el-button>
-         <el-button type="info">重置</el-button>
+         <el-button type="info" @click='resetLoginForm'>重置</el-button>
           </el-form-item>
           
 
@@ -28,6 +31,30 @@
 
 <script>
 export default {
+  data(){
+    return{
+      loginForm:{
+        username:'',
+        password:'',
+      },
+      loginRules: {
+          username: [
+            { required: true, message: '请输入你的名字', trigger: 'blur' },
+            { min: 1, max: 5, message: '长度在 1 到 5 个字符', trigger: 'blur' }
+          ],
+          password: [
+            { required: true, message: '请输入密码', trigger: 'blur' },
+            { min: 6, max: 12, message: '长度在 6 到 12 个字符', trigger: 'blur' }
+          ],},
+
+    }
+  },
+  methods: {
+    resetLoginForm(){
+      // 获取表单的实例对像 调用方法进行重置
+      this.$refs.loginFormRef.resetFields()
+    }
+  }
 
 }
 </script>
@@ -39,7 +66,7 @@ export default {
 }
 .box-card{
 
-  width:600px;
+  width:520px;
   margin:0 auto;
   margin-top:20px;
 }
@@ -49,4 +76,3 @@ export default {
 }
 </style>>
 
-</style>
