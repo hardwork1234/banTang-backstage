@@ -1,27 +1,47 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
-
+import Login from '../pages/login'
+const Home = () =>
+    import ('../pages/home')
+const NotFound = () =>
+    import ("../pages/errorPage/404.vue")
+const Forbidden = () =>
+    import ("../pages/errorPage/403.vue")
+const Layout = () =>
+    import ("../pages/layout")
 Vue.use(VueRouter)
 
-const routes = [
-  {
-    path: '/',
-    name: 'Home',
-    component: Home
-  },
-  {
-    path: '/about',
-    name: 'About',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
-  }
+const routes = [{
+        path: '/',
+        redirect: '/login',
+
+    },
+    {
+        path: '/login',
+        name: 'Login',
+        component: Login
+    },
+    {
+        path: '/home',
+        name: 'Home',
+        component: Home
+    }
 ]
 
 const router = new VueRouter({
-  routes
-})
+    routes
+});
+console.log(router);
+// 下面是关于登录权限验证的
+router.beforeEach((to, from, next) => {
+    // 如果去往的路径是/login就放行让他跳到login界面
+    if (to.path === '/login') return next();
+    // 如果token是空的就调回login
+    const tokenStr = window.sessionStorage.getItem('token')
+    if (!tokenStr) return next('/login')
+        // 如果有token就放行想去哪就去哪？
+    next()
 
+
+})
 export default router
