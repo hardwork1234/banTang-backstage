@@ -17,7 +17,7 @@
           
           <!-- 按钮 -->
           <el-form-item class="btbotton">
-         <el-button type="primary">登录</el-button>
+         <el-button type="primary" @click='login'>登录</el-button>
          <el-button type="info" @click='resetLoginForm'>重置</el-button>
           </el-form-item>
           
@@ -40,7 +40,7 @@ export default {
       loginRules: {
           username: [
             { required: true, message: '请输入你的名字', trigger: 'blur' },
-            { min: 1, max: 5, message: '长度在 1 到 5 个字符', trigger: 'blur' }
+            { min: 1, max: 5, message: '长度在 3到 9 个字符', trigger: 'blur' }
           ],
           password: [
             { required: true, message: '请输入密码', trigger: 'blur' },
@@ -53,6 +53,22 @@ export default {
     resetLoginForm(){
       // 获取表单的实例对像 调用方法进行重置
       this.$refs.loginFormRef.resetFields()
+    },
+    login(){
+      this.$refs.loginFormRef.validate(
+       async valid=>{
+          if (!valid) return;
+          const {data:res} = await this.$http.post('login',this.loginForm);
+          // 这里使用了elementUI的消息提示框引入message组件这个有点特殊必须先挂在到原型中
+          if(res.meta.status !==200 ) return this.$message.error('登录失败')
+          this.$message.success('登陆成功');
+          console.log(res.data);
+          // 下面是点击登陆的时候把返回的数据去设置浏览器的sessionStorage方便下次登录，并且跳转页面
+          window.sessionStorage.setItem('token',res.data.token);
+          this.$router.push('/home');
+
+        }
+      )
     }
   }
 
