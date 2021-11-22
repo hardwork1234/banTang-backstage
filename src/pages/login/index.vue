@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="bigbox">
       <div class="banner">易购后台管理系统</div>
       <el-card class="box-card">
         <!-- 数据绑定v-model 数据的验证rules 数据的重置 ref this.$refs.loginFormRef.resetFields() -->
@@ -34,8 +34,8 @@ export default {
   data(){
     return{
       loginForm:{
-        username:'',
-        password:'',
+        username:'admin',
+        password:'123456',
       },
       loginRules: {
           username: [
@@ -48,6 +48,20 @@ export default {
           ],},
 
     }
+  },
+  mounted (){
+    // 使用mock 模拟数据 自己昨天看的不行啊，昨天的是自己写数据用node读取数据文件在请求
+    // 今天学的比较简单使用 fastmock网站模拟接口，语法还是mock语法，网站自动生成路由
+    // 我们只需要baseurl 和 自己定义的根路径就行了
+
+//     const baseUrl =" https://www.fastmock.site/mock/c4e696a792f53a7c590a7c8c160e62d5/api";
+// this.$http.get(`${baseUrl}/test`)
+// //  其中 /test就是我们定义的根路径
+// .then(({data}) =>{
+//   console.log('data',data)
+
+// })
+
   },
   methods: {
     resetLoginForm(){
@@ -76,7 +90,9 @@ export default {
 </script>
 
 <style  scoped>
+
 .banner{
+  text-align: center;
   font-size:30px;
   margin-top:100px;
 }
@@ -87,6 +103,7 @@ export default {
   margin-top:20px;
 }
 .btbotton{
+  text-align: center;
   margin-top:50px;
   margin-bottom:0px;
 }
