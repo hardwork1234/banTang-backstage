@@ -1,18 +1,18 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Login from '../pages/login'
+const Roles = () =>
+    import ("../pages/power/Roles")
+const Rights = () =>
+    import ("../pages/power/Rights")
 const User = () =>
     import ("../pages/user/User")
 const Welcome = () =>
     import ("../pages/home/Welcome")
 const Home = () =>
     import ('../pages/home')
-const NotFound = () =>
-    import ("../pages/errorPage/404.vue")
-const Forbidden = () =>
-    import ("../pages/errorPage/403.vue")
-const Layout = () =>
-    import ("../pages/layout")
+const Params = () =>
+    import ("../pages/goods/Params")
 Vue.use(VueRouter)
 
 const routes = [{
@@ -33,6 +33,9 @@ const routes = [{
         children: [
             { path: '/welcome', component: Welcome },
             { path: '/users', component: User },
+            { path: '/rights', component: Rights },
+            { path: '/roles', component: Roles },
+            { path: '/params', component: Params },
         ]
     }
 ]

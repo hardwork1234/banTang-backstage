@@ -1,17 +1,17 @@
-<template style="height:100%;width:100%">
-  <div style="width:100%;height:100%">
+<template >
+  
     <el-container class="home-container">
       <!-- 头部区域 -->
       <el-header>
         <div class="header">
-          <img src="../../assets/heima.png" alt="" /><span
-            >电商后台管理系统</span
+         <span
+            >半糖网后台管理系统</span
           >
         </div>
         <el-button type="info" @click="logout">退出</el-button>
       </el-header>
       <!-- 页面主体区域 -->
-      <el-container>
+      <el-container class="show1">
         <!-- 侧边栏 -->
         <el-aside class="aside">
           <!-- el-menu 是关于导航菜单的布局容器 -->
@@ -49,11 +49,11 @@
         </el-aside>
         <!-- 右侧内容主体 -->
         <el-main>
-          <router-view></router-view>
+          <router-view class="show"></router-view>
         </el-main>
       </el-container>
     </el-container>
-  </div>
+ 
 </template>
 
 <script>
@@ -113,6 +113,7 @@ export default {
 
 }
 
+
 .menu{
   border-right:none;
 }
@@ -120,7 +121,8 @@ export default {
   text-align: left;
 }
 .home-container {
-  height: 100%;
+ height:100%;
+ 
 }
 .home-container .header{
   display: flex;
@@ -128,6 +130,9 @@ export default {
 }
 .home-container div span {
   margin-left: 15px;
+}
+.show1{
+  overflow:hidden;
 }
 .el-header {
   display: flex;
@@ -142,6 +147,7 @@ export default {
   background-color: #505355;
 }
 .el-main {
-  background-color: #d1d6dd;
+
+  background-color: #acb9cc;
 }
 </style>

@@ -53,8 +53,16 @@
               type="primary"
               icon="el-icon-edit"
               size="mini"
+               @click="showEditDialog(scope.row.id)"
             ></el-button>
-            <el-button type="danger" icon="el-icon-delete" size="mini" @click="removeUserById(scope.row.id)"></el-button>
+           <el-tooltip
+              effect="dark"
+              content="删除"
+              placement="top"
+              :enterable="false"
+            >
+             <el-button type="danger" icon="el-icon-delete" size="mini" @click="removeUserById(scope.row.id)"></el-button>
+           </el-tooltip>
             <el-tooltip
               effect="dark"
               content="分配角色"
@@ -112,6 +120,39 @@
         >
       </span>
     </el-dialog>
+    <!-- 修改用户对话框 -->
+
+
+     <el-dialog
+      title="修改用户"
+      :visible.sync="  modifyUserVisble"
+      width="50%" 
+    >
+    <!-- 内容对话框主体内容区域 -->
+      <el-form :model="modifyUserFrom" :rules="addFormRules" ref="addFormRef" label-width="70px" >
+  <el-form-item label="用户名" prop="username">
+    <el-input v-model="modifyUserFrom.username" disabled></el-input>
+  </el-form-item>
+  
+  </el-form-item>
+  <el-form-item label="邮箱" prop="email">
+    <el-input v-model="modifyUserFrom.email"></el-input>
+  </el-form-item>
+  <el-form-item label="手机" prop="mobile">
+    <el-input v-model="modifyUserFrom.mobile"></el-input>
+  </el-form-item>
+  </el-form>
+      <!-- 内容底部区域 -->
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="  modifyUserVisble = false">取 消</el-button>
+        <el-button type="primary" @click="changeUser"
+          >确 定</el-button
+        >
+      </span>
+    </el-dialog>
+
+
+
   </div>
 </template>
 
@@ -152,12 +193,19 @@ export default {
       userlist: [],
       total: 0,
       addDialogVisible:false,
+
       // 添加用户的表单数据
+       modifyUserVisble:false,
+      //  修改用户的表单开关
       addForm:{
         username:'',
         password:'',
         email:'',
         mobile:'',
+      },
+      modifyUserFrom:{
+         
+
       },
       // 添加表单的验证规则对象
      addFormRules:{
@@ -269,7 +317,42 @@ export default {
       this.$message.success('删除用户成功！')
       this.getUserList()
     },
+   async showEditDialog(id){
+     
+     
+       const { data: res } = await this.$http.get(
+        'users/'+id
+      );
+      if (res.meta.status !== 200) {
+        
+        return this.$message.error("查询用户状态失败");
+      }
+       this.modifyUserVisble=true,
+      this.modifyUserFrom=res.data
+      
+
+    },
+    async changeUser(){
+       const { data: res } = await this.$http.put(
+        'users/'+this.modifyUserFrom.id,{
+          email:this.modifyUserFrom.email,
+          mobile:this.modifyUserFrom.mobile,
+        }
+      );
+      if (res.meta.status !== 200) {
+        
+        return this.$message.error("修改用户状态失败");
+      }
+      this.modifyUserVisble=false,
+      this.$message.success("修改用户状态成功")
+      this.getUserList()
+
+
+    },
+   
   },
+  // 关闭窗口修改用户的数据
+  
 
   // // getUserList(){
   // //   this.$http.get('users',{params:this.queryInfo}).then(res =>{
