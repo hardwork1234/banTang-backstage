@@ -13,6 +13,9 @@ const Home = () =>
     import ('../pages/home')
 const Params = () =>
     import ("../pages/goods/Params")
+const Report = () =>
+    import ("../pages/report/Report")
+
 Vue.use(VueRouter)
 
 const routes = [{
@@ -36,6 +39,9 @@ const routes = [{
             { path: '/rights', component: Rights },
             { path: '/roles', component: Roles },
             { path: '/params', component: Params },
+            { path: '/reports', component: Report },
+
+
         ]
     }
 ]
